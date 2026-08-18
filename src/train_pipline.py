@@ -77,46 +77,6 @@ def select_features(df: pd.DataFrame):
     df = df[categorical + numerical + [target]].copy()
     return df, categorical, numerical, target
 
-def load_and_combine_months(file_paths: List[str]) -> pd.DataFrame:
-    """
-    Load multiple monthly parquet files and combine them into one DataFrame.
-    Adds a 'month' column for time-based splitting.
-    """
-    dfs = []
-    
-    for path in file_paths:
-        print(f"Loading: {path}")
-        df = pd.read_parquet(path)
-        
-        # استخراج ماه از نام فایل (فرض: نام فایل شامل تاریخ است)
-        # مثال: yellow_tripdata_2026-01.parquet → month = 1
-        month = int(path.split('-')[-1].split('.')[0].split('_')[0])
-
-        df['month'] = month
-        
-        dfs.append(df)
-    
-    combined = pd.concat(dfs, ignore_index=True)
-    print(f"Total combined data shape: {combined.shape}")
-    return combined
-
-
-def split_train_validation_by_month(
-    df: pd.DataFrame, 
-    train_months: List[int], 
-    val_month: int
-) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """
-    Split data into Train and Validation based on month.
-    """
-    train_df = df[df['month'].isin(train_months)].copy()
-    val_df = df[df['month'] == val_month].copy()
-    
-    print(f"Train shape: {train_df.shape} | Months: {train_months}")
-    print(f"Validation shape: {val_df.shape} | Month: {val_month}")
-    
-    return train_df, val_df
-
 
 # ========================
 # ۱. ترانسفورمرهای سفارشی
@@ -271,7 +231,7 @@ def train_final_model(X_train, y_train, best_params, run_name="final_lightgbm_mo
         signature = infer_signature(X_train, y_train)
 
         # ========================
-        # لاگ کردن Pipeline با cloudpickle (حل مشکل سریالایز)
+        ## لاگ کردن Pipeline با cloudpickle (حل مشکل سریالایز)
         # ========================
         mlflow.sklearn.log_model(
             sk_model=pipeline,

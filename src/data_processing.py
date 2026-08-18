@@ -1,17 +1,10 @@
-import pandas as pd
-from sklearn.feature_extraction import DictVectorizer
 import argparse
-import os
-from pathlib import Path 
-
-data_path = "/Users/mohsen/Desktop/nyc_duration_prediction/data/raw/yellow_tripdata_2026-01.parquet"
-
-
-import pandas as pd
 import os
 from pathlib import Path
 from typing import Optional
 
+import pandas as pd
+from sklearn.feature_extraction import DictVectorizer
 
 def save_processed_data(
     df: pd.DataFrame, 
