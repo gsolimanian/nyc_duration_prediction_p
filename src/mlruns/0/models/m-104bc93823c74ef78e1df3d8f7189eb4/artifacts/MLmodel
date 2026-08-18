@@ -1,0 +1,42 @@
+artifact_path: file:///G:/nyc_prediction_prediction_p/src/mlruns/0/models/m-104bc93823c74ef78e1df3d8f7189eb4/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.11.15
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.9.0
+    skops_trusted_types: null
+is_signature_from_type_hint: false
+metadata:
+  best_rmse: 0
+  description: Final LightGBM model after Optuna tuning
+  feature_engineering: Target Encoding on PU_DO + One-Hot on hour_category
+  number_of_trials: 50
+  training_period: AUG 2026
+mlflow_version: 3.14.0
+model_id: m-104bc93823c74ef78e1df3d8f7189eb4
+model_size_bytes: 434830
+model_uuid: m-104bc93823c74ef78e1df3d8f7189eb4
+prompts: null
+run_id: 2d5fd98252454016ab984bd13c9d837e
+signature:
+  inputs: '[{"type": "string", "name": "hour_category", "required": true}, {"type":
+    "double", "name": "trip_distance", "required": true}, {"type": "integer", "name":
+    "PULocationID", "required": true}, {"type": "integer", "name": "DOLocationID",
+    "required": true}, {"type": "integer", "name": "pickup_dayofweek", "required":
+    true}, {"type": "integer", "name": "pickup_hour", "required": true}, {"type":
+    "boolean", "name": "is_rush_hour", "required": true}, {"type": "boolean", "name":
+    "is_weekend", "required": true}, {"type": "string", "name": "PU_DO", "required":
+    true}]'
+  outputs: '[{"type": "double", "name": "duration", "required": true}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-08-18 08:54:20.878380'
