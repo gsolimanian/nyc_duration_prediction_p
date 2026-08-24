@@ -138,6 +138,10 @@ def processing_data(data: pd.DataFrame) -> pd.DataFrame:
 
     # Remove rows with missing values
     clean_data = data.dropna().copy()
+    # Convert pickup time to datetime
+    clean_data['tpep_pickup_datetime'] = pd.to_datetime(clean_data['tpep_pickup_datetime'])
+    clean_data['tpep_dropoff_datetime'] = pd.to_datetime(clean_data['tpep_dropoff_datetime'])
+
 
     # Create duration column (in minutes)
     clean_data['duration'] = (
@@ -145,15 +149,12 @@ def processing_data(data: pd.DataFrame) -> pd.DataFrame:
     ).dt.total_seconds() / 60
     clean_data['duration'] = clean_data['duration'].round(2)
 
-    # Convert pickup time to datetime
-    clean_data['tpep_pickup_datetime'] = pd.to_datetime(clean_data['tpep_pickup_datetime'])
-
     # Create time-based features
     clean_data['pickup_hour'] = clean_data['tpep_pickup_datetime'].dt.hour
     clean_data['pickup_dayofweek'] = clean_data['tpep_pickup_datetime'].dt.dayofweek
 
     # Create additional features
-    clean_data['is_weekend'] = clean_data['pickup_dayofweek'].isin([5, 6])   # 5=Friday, 6=Saturday
+    clean_data['is_weekend'] = clean_data['pickup_dayofweek'].isin([5, 6])   # 5=Saturday , 6=Sunday
     clean_data['hour_category'] = clean_data['pickup_hour'].apply(categorize_hour)
     clean_data['is_rush_hour'] = clean_data['pickup_hour'].isin([5, 6, 7, 8, 9])
     clean_data['PU_DO'] = (clean_data['PULocationID'].astype(str) + '_' + clean_data['DOLocationID'].astype(str))
